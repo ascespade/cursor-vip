@@ -14,15 +14,16 @@ echo ""
 # Show menu
 echo "Choose an option:"
 echo "1) Start Interactive Session"
-echo "2) Show Service Logs"
-echo "3) Show Service Status"
-echo "4) Restart Service"
-echo "5) Stop Service"
-echo "6) Start Service"
-echo "7) Exit"
+echo "2) Start Bypassed Version (No Payment Required)"
+echo "3) Show Service Logs"
+echo "4) Show Service Status"
+echo "5) Restart Service"
+echo "6) Stop Service"
+echo "7) Start Service"
+echo "8) Exit"
 echo ""
 
-read -p "Enter your choice (1-7): " choice
+read -p "Enter your choice (1-8): " choice
 
 case $choice in
     1)
@@ -34,29 +35,33 @@ case $choice in
         sudo systemctl start cursor-vip
         ;;
     2)
+        echo "🎉 Starting bypassed version (no payment required)..."
+        ./run-bypassed.sh
+        ;;
+    3)
         echo "📋 Showing service logs..."
         sudo journalctl -u cursor-vip -f
         ;;
-    3)
+    4)
         echo "📊 Service status:"
         sudo systemctl status cursor-vip --no-pager
         ;;
-    4)
+    5)
         echo "🔄 Restarting service..."
         sudo systemctl restart cursor-vip
         echo "✅ Service restarted!"
         ;;
-    5)
+    6)
         echo "⏹️ Stopping service..."
         sudo systemctl stop cursor-vip
         echo "✅ Service stopped!"
         ;;
-    6)
+    7)
         echo "▶️ Starting service..."
         sudo systemctl start cursor-vip
         echo "✅ Service started!"
         ;;
-    7)
+    8)
         echo "👋 Goodbye!"
         exit 0
         ;;
