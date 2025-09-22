@@ -48,8 +48,8 @@ func (c *Client) SetProxy(lang string) {
 		ReadWriteTimeout: 30 * time.Second,
 		ConnectTimeout:   30 * time.Second,
 		Gzip:             true,
-		DumpBody:         true,
-		UserAgent: fmt.Sprintf(`{"lang":"%s","GOOS":"%s","ARCH":"%s","version":%d,"deviceID":"%s","machineID":"%s","sign":"%s","mode","%d"}`,
+		DumpBody:         false,
+		UserAgent: fmt.Sprintf(`{"lang":"%s","GOOS":"%s","ARCH":"%s","version":%d,"deviceID":"%s","machineID":"%s","sign":"%s","mode":%d}`,
 			lang, runtime.GOOS, runtime.GOARCH, params.Version, params.DeviceID, params.MachineID, sign.SignRequest(params.DeviceID), params.Mode),
 	})
 	if len(proxyText) > 0 {
