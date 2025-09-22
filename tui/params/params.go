@@ -20,5 +20,5 @@ var Red = "\033[1;31m%s\033[0m\n"
 var DefaultColor = "%s"
 var M3DaysRemainingOnTrial = "..."
 
-var Product = []string{"cursor IDE"}
+var Product = []string{"cursor IDE", "cursor Pro", "cursor Enterprise", "cursor Ultimate"}
 var IsOnlyMod2 = false
