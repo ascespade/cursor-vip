@@ -153,7 +153,7 @@ print_status "Building for Linux AMD64..."
 
 # Build the optimized executable
 print_status "Compiling optimized executable..."
-BUILD_FLAGS="-ldflags '-s -w'"
+BUILD_FLAGS="-ldflags=-s -w"
 CGO_ENABLED=0
 GOOS=linux
 GOARCH=amd64
