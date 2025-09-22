@@ -1,0 +1,39 @@
+[Unit]
+Description=Cursor VIP Service
+Documentation=https://github.com/kingparks/cursor-vip
+After=network.target network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=cursor-vip
+Group=cursor-vip
+WorkingDirectory=/opt/cursor-vip
+ExecStart=/opt/cursor-vip/cursor-vip
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=cursor-vip
+
+# Security settings
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/cursor-vip
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+
+# Resource limits
+LimitNOFILE=65536
+LimitNPROC=32768
+
+# Environment
+Environment=GOMAXPROCS=2
+Environment=TZ=UTC
+
+[Install]
+WantedBy=multi-user.target

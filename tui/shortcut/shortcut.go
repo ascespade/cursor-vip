@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/atotto/clipboard"
 	"github.com/eiannone/keyboard"
-	"github.com/kingparks/cursor-vip/authtool"
+	"github.com/kingparks/cursor-vip/auth/authtool"
 	"github.com/kingparks/cursor-vip/tui/client"
 	"github.com/kingparks/cursor-vip/tui/params"
 	"github.com/kingparks/cursor-vip/tui/tool"
