@@ -135,10 +135,10 @@ build_platform() {
             rsrc -arch "$arch" -ico rsrc.ico -o rsrc.syso
         fi
         
-        if [[ $DEV_MODE == true ]]; then
-            GOOS=$os GOARCH=$arch CGO_ENABLED=0 go build -o "build/$output_name"
+    if [[ $DEV_MODE == true ]]; then
+            GOOS=$os GOARCH=$arch CGO_ENABLED=0 go build -trimpath -buildvcs=false -o "build/$output_name"
         else
-            GOOS=$os GOARCH=$arch CGO_ENABLED=0 go build -ldflags "-s -w" -o "build/$output_name"
+            GOOS=$os GOARCH=$arch CGO_ENABLED=0 go build -trimpath -buildvcs=false -ldflags "-s -w" -o "build/$output_name"
         fi
         
         # Clean up rsrc.syso
@@ -146,9 +146,9 @@ build_platform() {
     else
         # Unix-like systems (Linux, macOS)
         if [[ $DEV_MODE == true || $NO_OBFUSCATION == true ]]; then
-            GOOS=$os GOARCH=$arch CGO_ENABLED=0 go build -o "build/$output_name"
+            GOOS=$os GOARCH=$arch CGO_ENABLED=0 go build -trimpath -buildvcs=false -o "build/$output_name"
         else
-            GOOS=$os GOARCH=$arch CGO_ENABLED=0 garble -literals -tiny build -ldflags "-w -s" -o "build/$output_name"
+            GOOS=$os GOARCH=$arch CGO_ENABLED=0 garble -literals -tiny build -trimpath -buildvcs=false -ldflags "-w -s" -o "build/$output_name"
         fi
     fi
     

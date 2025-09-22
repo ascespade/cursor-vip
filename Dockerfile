@@ -20,20 +20,21 @@ RUN go mod download
 COPY . .
 
 # Install build tools
-RUN go install mvdan.cc/garble@latest
+RUN --mount=type=cache,target=/go/pkg/mod --mount=type=cache,target=/root/.cache/go-build go install mvdan.cc/garble@latest
 
 # Build the application
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 garble -literals -tiny build -ldflags "-w -s" -o cursor-vip
+RUN --mount=type=cache,target=/go/pkg/mod --mount=type=cache,target=/root/.cache/go-build CGO_ENABLED=0 GOOS=linux GOARCH=amd64 garble -literals -tiny build -trimpath -buildvcs=false -ldflags "-w -s" -o cursor-vip
 
 # Production stage
-FROM alpine:latest
+FROM alpine:3.20
 
 # Install runtime dependencies
-RUN apk --no-cache add ca-certificates tzdata
+RUN apk --no-cache add ca-certificates tzdata \
+    && addgroup -g 1001 -S appgroup \
+    && adduser -u 1001 -S appuser -G appgroup
 
 # Create non-root user
-RUN addgroup -g 1001 -S appgroup && \
-    adduser -u 1001 -S appuser -G appgroup
+# user already created above
 
 # Set working directory
 WORKDIR /app
@@ -51,8 +52,8 @@ USER appuser
 EXPOSE 8080
 
 # Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-    CMD wget --no-verbose --tries=1 --spider http://localhost:8080/health || exit 1
+# Keep image minimal; keep healthcheck lightweight if endpoint exists
+# HEALTHCHECK can be enabled in deployment environment
 
 # Run the application
 CMD ["./cursor-vip"]
